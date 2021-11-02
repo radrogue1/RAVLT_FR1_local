@@ -1,0 +1,17 @@
+var alt_a_audio = [
+        { audio: "/static/sound/alternate/BOOK.wav"},
+        { audio: "/static/sound/alternate/FLOWER.wav"},
+        { audio: "/static/sound/alternate/TRAIN.wav"},
+        { audio: "/static/sound/alternate/RUG.wav"},
+        { audio: "/static/sound/alternate/MEADOW.wav"},
+        { audio: "/static/sound/alternate/HARP.wav"},
+        { audio: "/static/sound/alternate/SALT.wav"},
+        { audio: "/static/sound/alternate/FINGER.wav"},
+        { audio: "/static/sound/alternate/APPLE.wav"},
+        { audio: "/static/sound/alternate/CHIMNEY.wav"},
+        { audio: "/static/sound/alternate/BUTTON.wav"},
+        { audio: "/static/sound/alternate/LOG.wav"},
+        { audio: "/static/sound/alternate/KEY.wav"},
+        { audio: "/static/sound/alternate/RATTLE.wav"},
+        { audio: "/static/sound/alternate/GOLD.wav"},
+]
