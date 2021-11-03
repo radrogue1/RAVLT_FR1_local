@@ -12,11 +12,11 @@ var jsPsychUtils = {
         }
         let four_sess = {
             type: 'html-button-response',
-            stimulus:"<p class = inst>This task will involve doing four sessions over the course of a month.</p>" +
+            stimulus:"<p class = inst>This task will involve doing four sessions over the course of a month and a half.</p>" +
             "<p class = inst>We ask those who participate in this task to confirm that they are"+
-             "<br>able and  willing to participate fully in the four sessions.</p>" +
+             "<br>willing and able to participate fully in the four sessions.</p>" +
             "<p class = inst>Those who do participate in all four sessions will get paid the base rate for all four sessions,<br>"+
-             "with a bonus of $15 dollars upon completion of the last session.</p>"+
+             "with a bonus of $15 dollars upon completion of the last session. <br> There will be a week and a half between each session.</p>"+
             "<p class = inst>With all of this in mind, are you willing and able to participate fully in this experiment?</p>",
             choices: ['Yes', 'No'],
             on_finish: function(data) {psiturk.finishInstructions();}

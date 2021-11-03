@@ -225,7 +225,6 @@
     };
 
     // start the response listener
-<<<<<<< HEAD
     var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
       callback_function: keyboard_listener,
       rt_method: "performance",
@@ -233,17 +232,6 @@
       persist: true,
       propagate: true
     })
-=======
-    if (trial.choices != jsPsych.NO_KEYS) {
-      var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
-        callback_function: after_response,
-        valid_responses: trial.choices,
-        rt_method: 'performance',
-        persist: true,
-        allow_held_key: false,
-      });
-    }
->>>>>>> a8956a103847b84195553ec47cfa2ce710a8b3e3
 
     // end trial if time limit is set
     if (trial.trial_duration !== null) {

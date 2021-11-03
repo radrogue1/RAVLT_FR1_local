@@ -190,7 +190,7 @@ async function runExperiment() {
     var music_video = {
         type: 'video-keyboard-response',
         sources: jsPsych.timelineVariable("video"),
-        prompt: "<p class = inst> Press B at event boundaries </p>",
+        prompt: "<p class = inst>Press B for every new event</p>",
         rate: 1,
         autoplay: true,
         width: screen.width - 600,
@@ -209,9 +209,9 @@ async function runExperiment() {
 
     var music_instructions = {
         type: "instructions",
-        pages: ['<p class = inst>You will now watch a series of music videos. During each music video, multiple events will occur. Please press the “B” key at any point of the music video where you believe a meaningful event-shift or change has happened. A meaningful event-shift or change can be characterized as, for example, a character in a scene transitioning to a different action or a setting change.</p>' +
-        "<p class = inst>For example: A character starts drinking from a cup and then sets it down and walks out of the room. <br> The character beginning to drink from the cup may be deemed as a meaningful event-shift as well as when the same character places the cup back down and then again, when they leave the room.</p>" +
-        '<p class = inst>Please try your best to indicate when a meaningful event-shift occurs in each presented video by pressing "B".</p>'],
+        pages: ['<p class = inst>You will now watch a series of music videos. During each music video, multiple events will occur. Please press the “B” key at any point of the music video where you believe a meaningful event shift or change has occurred. A meaningful event shift or change can be characterized as, for example, a character in a scene changing their course of action or a change in setting.</p>' +
+        '<p class = inst>For example: A character goes to their car and begins driving. While driving, they change the song that is playing. Later, they stop at a red light, then continue driving until they reach their destination.<br>Examples of meaningful event shifts when you would want to press the "B" button could include the character getting into their car, beginning to drive, changing the song, stopping at the red light, and arriving at the destination.</p>' +
+        '<p class = inst>Please try your best to indicate when any meaningful event shifts occur in each presented video."</p>'],
         show_clickable_nav: true,
         allow_keys: false,
         data: {type: 'instruction'}    
@@ -256,6 +256,7 @@ async function runExperiment() {
             preamble: "<p class = inst> Type as many words that are " + type + " as you can remember. </p>",
             min_length: 2,
             max_length: 15,
+            button_disabled: 5000,
             choices: ["I can't remember any more words"],
             data: {type: 'recall', phase: 'RAVLT', recall_type: 'cued: ' + type, listtype: 'List A'}
         }
@@ -329,17 +330,6 @@ async function runExperiment() {
         data: {type: 'instruction'}
     };
 
-    /*Instructions played after the first five lists are encoded and recalled*/
-    var repeated_fr_instructions = {
-        type: "instructions",
-        pages: ["<p class = inst>You will now do the same task for another five lists." +
-        "<br> Once again, please type as many words as you can remember from the list, IN ANY ORDER. </p>" + 
-        "<p class = inst> press next to begin </p>"],
-        show_clickable_nav: true,
-        allow_keys: false,
-        data: {type: 'instruction'}
-    };
-
     var countdown = {
         type: 'countdown',
         seconds: 10,
@@ -371,7 +361,7 @@ async function runExperiment() {
         type: 'html-keyboard-response',
         response_ends_trial: false,
         stimulus: "<p class='inst'>The preceding task were designed to screen participants who are not carefully following the instructions of our study.<p>" +
-        "<p class='inst'>Based on your performance on this task, we ask that you return this HIT to MTurk at this time.</p>"
+        "<p class='inst'>Based on your performance on the practice list, we ask that you return this HIT to MTurk at this time.</p>"
     };
 
     function practice_test(words) {
@@ -473,28 +463,17 @@ async function runExperiment() {
             timeline: [FR1test],
             timeline_variables: pwp,
         };
-        timeline = timeline.concat(countdown, FR1_practice, fixation,  math_distractor, fixation, start_recall, practice_test(pwp), end_recall);
-    
-
+        timeline = timeline.concat(countdown, FR1_practice, fixation,  math_distractor, fixation, start_recall, practice_test(pwp), end_recall, fr_instructions);
         //Generate lists for main trials
-        count = 0
-        for (var numtrials = 0; numtrials < 4; numtrials++){
-            if (numtrials == 0) {
-                timeline.push(fr_instructions);
-            } else {
-                timeline.push(repeated_fr_instructions);
-            }
-            for(var numlists = 0; numlists < 5; numlists++){
-                timeline.push(fixation);
-                var trial_wp = lists[count];
-                count++
-                var FR1_test_procedure = {
-                    timeline: [FR1test],
-                    timeline_variables: trial_wp,
-                    randomize_order: false
-                };
+        for (var list = 0; list < 23; list++){
+            timeline.push(fixation);
+            var trial_wp = lists[list];
+            var FR1_test_procedure = {
+                timeline: [FR1test],
+                timeline_variables: trial_wp,
+                randomize_order: false
+            };
             timeline = timeline.concat(countdown, FR1_test_procedure, fixation, math_distractor, fixation, start_recall, free_recall, end_recall);
-            }
         }
     }
 
@@ -503,31 +482,27 @@ async function runExperiment() {
         test_procedureA = st_test_procedureA
         test_procedureB = st_test_procedureB
         speed_test_procedureA = st_speed_test_procedureA
-        // } else {
         //     test_procedureA = alt_test_procedureA
         //     test_procedureB = alt_test_procedureB
         //     speed_test_procedureA = alt_speed_test_procedureA
-        // }
-
-        // timeline = timeline.concat(audio_test, intro, fixation, test_procedureA, fixation, RAVLT_recallA, fixation)
-        // for(var i = 0; i < 4; i++){
-        //     timeline = timeline.concat(instructions1, fixation, test_procedureA, fixation, RAVLT_recallA, fixation);
-        // }
-        // timeline = timeline.concat(instructions2, fixation, test_procedureB, fixation, RAVLT_recallB, fixation)
-        // timeline = timeline.concat(instructions3, fixation, speed_test_procedureA, RAVLT_recallA);
+        timeline = timeline.concat(audio_test, intro) 
+        for(var i = 0; i < 5; i++){
+            timeline = timeline.concat(fixation, test_procedureA, fixation, RAVLT_recallA);
+        }
+        timeline = timeline.concat(instructions2, fixation, test_procedureB, fixation, RAVLT_recallB, fixation)
+        timeline = timeline.concat(instructions3, fixation, speed_test_procedureA, RAVLT_recallA);
         timeline = timeline.concat(music_instructions, video_procedure, fixation, instructions3, fixation, speed_test_procedureA, RAVLT_recallA);
     }
-    
     /* FULL BLOCKING*/
-    // timeline.push(check_willing)
-    // timeline = timeline.concat(attention_test, welcome)
-    // if(condition < 2){
-    //     FR1()    
-    // }
-    // else{
-    RAVLT()
-    // }
-    // timeline.push(notes, finito);
+    timeline.push(check_willing)
+    timeline = timeline.concat(attention_test, welcome)
+    if(condition < 2){
+        FR1()    
+    }
+    else{
+        RAVLT()
+    }
+    timeline.push(notes, finito);
     window.onbeforeunload = function() {
       return "Warning: Refreshing the window will RESTART the experiment from the beginning! Please avoid refreshing your browser while the task is running.";
     }
