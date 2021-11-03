@@ -8,7 +8,8 @@ var jsPsychUtils = {
         let four_failed_sess = {
             type: 'html-keyboard-response',
             response_ends_trial: false,
-            stimulus: "<p class='inst'>Due to your inability to complete four sessions, we ask that you return this HIT to MTurk at this time.</p>"
+            stimulus: "<p class='inst'>Please do not reload the page.</p>" +
+            "<p class='inst'>Due to your inability to complete four sessions, we ask that you return this HIT to MTurk at this time.</p>"
         }
         let four_sess = {
             type: 'html-button-response',
@@ -56,6 +57,7 @@ var jsPsychUtils = {
             type: 'html-keyboard-response',
             response_ends_trial: false,
             stimulus: "<p class='inst'>The preceding questions were designed to screen participants who are not carefully following the instructions of our study.<p>" +
+            "<p class='inst'>Please do not reload the page.</p>" +
             "<p class='inst'>Based on your responses to these questions, we ask that you return this HIT to MTurk at this time.</p>"
         }
 

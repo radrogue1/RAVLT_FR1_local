@@ -361,7 +361,9 @@ async function runExperiment() {
         type: 'html-keyboard-response',
         response_ends_trial: false,
         stimulus: "<p class='inst'>The preceding task were designed to screen participants who are not carefully following the instructions of our study.<p>" +
+        "<p class='inst'>Please do not reload the page.</p>" +
         "<p class='inst'>Based on your performance on the practice list, we ask that you return this HIT to MTurk at this time.</p>"
+    
     };
 
     function practice_test(words) {
